@@ -14,7 +14,7 @@ module.exports = {
 		responseData.data = data;
 		res.status(httpCode).json(responseData);
 	},
-	// 时间 格式化成 2018-12-12 12:12:001
+	// 时间 格式化成 2018-12-12 12:12:0012
 	timestampToTime(timestamp) {
 		const date = new Date(timestamp);
 		const Y = date.getFullYear() + '-';
