@@ -15,7 +15,7 @@
 		methods: {
 			async login() {
 				console.log('123');
-				// 密码处理 加密
+				// 密码处理 加密处理
 				// let pwd = Md5.hashStr(Md5.hashStr(userInfo.password) + '123456789')
 				const params = {
 				    // email: userInfo.email,
