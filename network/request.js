@@ -17,8 +17,10 @@ module.exports = {
 			data: data,
 			header: {
 				'content-type': 'application/json'
+				// 'content-type': 'application/x-www-form-urlencoded'
 			},
-			success(res) {
+			success(res, statusCode) {
+				console.log('req-statusCode', statusCode)
 				params.success && params.success(res.data)
 			},
 			fail(error) {

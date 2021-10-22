@@ -32,7 +32,8 @@
 						email: '1766676238@qq.com',
 						password: '123456'
 					},
-					success: res => {
+					success: (res, statusCode) => {
+						console.log(statusCode)
 					    console.log('接口请求成功',res)
 					},
 					fail: error => {

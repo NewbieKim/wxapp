@@ -25,6 +25,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/demo/demo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -48,6 +57,11 @@
 					"iconPath": "static/tabbar/tabbar_icon_live_default.png",
 					"selectedIconPath": "static/tabbar/tabbar_icon_live_hl.png",
 					"text": "直播"
+				},{
+					"pagePath": "pages/demo/demo",
+					"iconPath": "static/tabbar/tab_me.png",
+					"selectedIconPath": "static/tabbar/tab_me_hl.png",
+					"text": "呆萌"
 				},
 				{
 					"pagePath": "pages/mine/mine",
