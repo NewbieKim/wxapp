@@ -5,7 +5,12 @@ function loginApi(params){
   http('/users/login','post',params)  // 接口请求的路由地址以及请求方法在此处传递
 }
 
+function uploadApi(params){
+  http('/thirdService/upload','post',params)  // 接口请求的路由地址以及请求方法在此处传递
+}
+
 // 每一个接口定义一个函数，然后暴露出去，供逻辑代码调用
 export default { // 暴露接口
-  loginApi
+  loginApi,
+  uploadApi
 }
