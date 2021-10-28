@@ -29,6 +29,7 @@ router.post('/login', function(req, res, next) {
   // 搜索数据库
   const User = mongoose.model('User')
   User.findOne({ email: email, password: password }).then((userInfo) => {
+    console.log(userInfo)
     if (userInfo) {
       console.log(userInfo)
       console.log('123sss')
