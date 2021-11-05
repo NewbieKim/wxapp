@@ -17,16 +17,22 @@ const userSchema = new Schema({
   email: { type: String, default: '' },
   phone: { type: String, default: '' },
   avatar: { type: String, default: '' },
+  token: { type: String, default: '' },
   password: {
     type: String,
     require: true,
     default: crypto
       .createHash('md5')
+      // @ts-ignore
       .update(yargs.auth_default_password || 'root')
       .digest('hex')
   },
   create_time: { type: Date, default: Date.now() },
-  last_login_time: { type: Date, default: Date.now() }
+  last_login_time: { type: Date, default: Date.now() },
+  role_id: {
+    ref: 'Role',
+    type: Schema.Types.ObjectId
+  }
 })
 
 // 自增ID插件配置

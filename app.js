@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const consola = require('consola')
+const jwt = require('jsonwebtoken');
 
 // 跨域问题
 const cors = require('cors')
@@ -12,8 +13,8 @@ const cors = require('cors')
 // 引入路由
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var roleRouter = require('./routes/role');
 var menusRouter = require('./routes/menus');
-var thirdService = require('./routes/thirdService')
 
 var app = express();
 
@@ -47,8 +48,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/role', roleRouter);
 app.use('/menus', menusRouter);
-app.use('/thirdService', thirdService)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,19 +71,36 @@ app.use(function(err, req, res, next) {
 const { connect, initSchemas } = require('./core/mongodb')
 const mongoose = require('mongoose')
 // 立即执行函数
-;(async () => {
+;const { ObjectId } = require('bson');
+(async () => {
   await connect()
   initSchemas()
+  consola.log('1111')
   // 建立一个User模型
-  // const User = mongoose.model('User')
-  // let oneUser = new User({ user_name: 'kim-jiang1', password: '123456' })
+  const Role = mongoose.model('Role')
+  const User = mongoose.model('User')
+  let oneRole = new Role({ id: 3, role_name: '普通用户', user_id: ObjectId("5ff41cc2315d055a58946524") })
+  // oneRole.save().then(() => {
+  //   consola.ready('插入数据成功-0001')
+  // })
+  // let oneUser = new User({ user_id: 0001, user_name: '测试小江' })
   // oneUser.save().then(() => {
   //   consola.ready('插入数据成功-0001')
   // })
-  // let users = await User.findOne({}).exec()
-  // console.log('------------------')
-  // console.log(users)
-  // console.log('------------------')
+  let result = await Role.find({}).populate('user_id', {}).exec();
+  // consola.log('res', result);
+  // let roleList = []
+  // result.forEach(item => {
+  //   if (item.__v.indexOf(userId) > -1) {
+  //     roleList.push(item);
+  //   }
+  // });
+  let users = await User.find({ user_name: '测试小江' }).populate('role_id').exec();
+  console.log('------------------')
+  console.log(result);
+  console.log('------------------')
+  console.log(users);
+  console.log('------------------')
 })()
 
 module.exports = app;
