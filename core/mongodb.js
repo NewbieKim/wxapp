@@ -7,7 +7,7 @@
 const consola = require('consola')
 const mongoose = require('mongoose')
 // db为数据库名称
-const db = "mongodb://localhost/mygreatepro"
+const db = "mongodb://localhost/myblog"
 // const autoIncerement = required('mongoose-auto-increment')
 mongoose.Promise = global.Promise
 
