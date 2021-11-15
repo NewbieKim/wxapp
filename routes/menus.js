@@ -81,6 +81,7 @@ router.post('/getMenus', function(req, res, next) {
     let result = tokenValidate(authorization)
     console.log('res', result)
     if (result && typeof result !== 'object') {
+      // 查询改角色下的菜单
       res.send({
         code: '1',
         msg: '请求成功',

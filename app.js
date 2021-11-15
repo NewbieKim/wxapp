@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const consola = require('consola')
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 // 跨域问题
 const cors = require('cors')
@@ -15,6 +15,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var roleRouter = require('./routes/role');
 var menusRouter = require('./routes/menus');
+var thirdServiceRouter = require('./routes/thirdService');
 
 var app = express();
 
@@ -50,6 +51,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/role', roleRouter);
 app.use('/menus', menusRouter);
+app.use('/thirdService', thirdServiceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
