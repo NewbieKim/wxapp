@@ -4,8 +4,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const consola = require('consola')
-// const jwt = require('jsonwebtoken');
+const consola = require('consola');
+// const bodyParser = require('body-parser');
+const koaBody = require('koa-body');
+const jwt = require('jsonwebtoken');
 
 // 跨域问题
 const cors = require('cors')
@@ -23,6 +25,12 @@ var app = express();
 // 1.中间件解决
 app.use(cors())
 
+// 解析数据
+// app.use(bodyParser.json());//数据JSON类型
+// app.use(bodyParser.urlencoded({ extended: false }));//解析post请求数据
+
+// app.use(koaBody)
+
 // 2.代理
 app.all('*', function(res, response, next) {
   // 允许跨域的域名 * 代表所有
@@ -34,6 +42,8 @@ app.all('*', function(res, response, next) {
   //设置响应头信息
   response.header("X-Powered-By",' 3.2.1')
   response.header("Content-Type", "application/json;charset=utf-8");
+  // response.setHeader('Access-Control-Allow-Origin',"*");
+  // response.setHeader('Access-Control-Allow-Headers','Content-Type');
   next()
 })
 

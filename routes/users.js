@@ -17,6 +17,8 @@ router.get('/home',async(ctx)=>{
 
 // 登录
 router.post('/login', function(req, res, next) {
+  console.log('--------req body login', req.body)
+  // console.log('--------req body login', JSON.prase(req.body).email)
   let { email, password } = req.body
   console.log(req.body)
   if (!email) {
