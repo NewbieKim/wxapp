@@ -8,6 +8,7 @@ const consola = require('consola');
 // const bodyParser = require('body-parser');
 const koaBody = require('koa-body');
 const jwt = require('jsonwebtoken');
+const proxy = require('koa-server-http-proxy')
 
 // 跨域问题
 const cors = require('cors')
@@ -23,7 +24,7 @@ var app = express();
 
 // 跨域
 // 1.中间件解决
-app.use(cors())
+// app.use(cors())
 
 // 解析数据
 // app.use(bodyParser.json());//数据JSON类型
@@ -34,9 +35,9 @@ app.use(cors())
 // 2.代理
 app.all('*', function(res, response, next) {
   // 允许跨域的域名 * 代表所有
-  response.header('Access-Control-Allow-Origin', '*')
-  //允许的header类型
-  response.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // response.header('Access-Control-Allow-Origin', 'http://localhost:4001')
+  // 允许跨域的域名：同请求
+  // response.header("Access-Control-Allow-Headers", "X-Requested-With");
   //跨域允许的请求方式
   response.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   //设置响应头信息
@@ -46,6 +47,12 @@ app.all('*', function(res, response, next) {
   // response.setHeader('Access-Control-Allow-Headers','Content-Type');
   next()
 })
+
+// app.use(proxy('/yunpos', {
+//   target: 'http://47.107.229.134:8080',
+//   pathRewrite: { '^/yunpos': '' },
+//   changeOrigin: true
+// }))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -78,6 +85,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// 简单部署
+app.use(express.static(path.join(__dirname, 'dist')))
+app.listen(8080, () => {
+  console.log('app listening on port 8080')
+})
 
 // 数据库连接
 const { connect, initSchemas } = require('./core/mongodb')
