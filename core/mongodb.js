@@ -6,8 +6,10 @@
 
 const consola = require('consola')
 const mongoose = require('mongoose')
-// db为数据库名称
+// db为数据库名称 本地服务器
 const db = "mongodb://localhost/myblog"
+// 远程服务器
+// const db = "mongodb://120.79.113.248/viteapp"
 // const autoIncerement = required('mongoose-auto-increment')
 mongoose.Promise = global.Promise
 

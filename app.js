@@ -88,9 +88,9 @@ app.use(function(err, req, res, next) {
 
 // 简单部署
 app.use(express.static(path.join(__dirname, 'dist')))
-app.listen(8080, () => {
-  console.log('app listening on port 8080')
-})
+// app.listen(3000, () => {
+//   console.log('app listening on port 3000')
+// })
 
 // 数据库连接
 const { connect, initSchemas } = require('./core/mongodb')
