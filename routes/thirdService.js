@@ -1,3 +1,4 @@
+// @ts-nocheck
 var express = require('express');
 var router = express.Router();
 var http = require('http');
@@ -5,6 +6,25 @@ var fs = require('fs');
 const multer = require('@koa/multer');
 const cors = require('@koa/cors');
 const path = require('path');
+const multiparty = require('multiparty')
+const axios = require("axios")
+
+//服务器配置
+const client = require("ssh2-sftp-client")
+const config = {
+  path: {
+    remotePath: "/public",
+    localPath: path.resolve(__dirname, './uploads/t1.png')
+  },
+  remotePath: "",
+  remote: {
+    host: "120.79.113.248",
+    port: "22",
+    username: "root",
+    password: "Kimsweb123%"
+  }
+}
+
 
 let mockData = [
   {
@@ -13,14 +33,58 @@ let mockData = [
   }
 ]
 
+const service = axios.create({
+  baseURL: 'http://localhost:3000/',
+  timeout: 5000
+})
+
 // menus/getMenus
 
+// 上传至服务器
+router.post('/upload1', function(req, res, next) {
+  var form = new multiparty.Form();
+  const sftp = new client()
+  form.encoding = 'utf-8';
+  console.log("__dirname", __dirname)
+  sftp.connect(config.remote).then(() => {
+    console.log('----------------------------- 连接成功,上传中... -----------------------------')
+    return sftp.uploadDir(config.path.localPath, config.path.remotePath)
+  }).then((data) => {
+    console.log('----------------------------- 上传成功 -----------------------------')
+  }).catch((err) => {
+    console.log(err)
+  }).finally(() => {
+    sftp.end()
+  })
+}),
+
 router.post('/upload', function(req, res, next) {
-  console.log('sexy girl body', req.body, res);
-  res.send({
-    code: '1',
-    msg: '请求成功',
-    data: mockData
+  console.log('sexy girl body', req.body);
+  let data = {url: '', img: ''}
+  var form = new multiparty.Form();
+  form.encoding = 'utf-8';
+  console.log("__dirname", __dirname)
+  form.uploadDir = __dirname+"/uploads";
+  form.parse(req, function(err, fields, files) {
+    if(err){
+      console.log('错误', err);
+      res.send({
+        code: '-1',
+        msg: '上传失败',
+      });
+      return ;
+    }
+    fs.renameSync(files.file[0].path, __dirname+"/uploads" + files.file[0].originalFilename);
+    console.log(files);
+    data.img = files.file[0].path
+    console.log(data.img);
+    data.len = files.length;
+    // res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+    res.send({
+      code: '1',
+      msg: '上传成功',
+      data: data
+    })
   })
 })
 
@@ -78,10 +142,6 @@ router.post('/uploadSingle', function(req, res, next){
   }
 })
 
-// router.post('/upload', (ctx, next) => {
-//   console.log('ctx.request.file', ctx.request.file);
-//   console.log('ctx.file', ctx.file);
-// })
 
 module.exports = router;
 // 服务启动在4000端口
